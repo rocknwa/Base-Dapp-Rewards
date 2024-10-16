@@ -1,14 +1,16 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.23;
 
-contract Counter {
-    uint256 public number;
+import "openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 
-    function setNumber(uint256 newNumber) public {
-        number = newNumber;
-    }
+contract NFT is ERC721 {
+    uint256 public currentTokenId;
 
-    function increment() public {
-        number++;
+    constructor() ERC721("NFT Name", "NFT") {}
+
+    function mint(address recipient) public payable returns (uint256) {
+        uint256 newItemId = ++currentTokenId;
+        _safeMint(recipient, newItemId);
+        return newItemId;
     }
 }
